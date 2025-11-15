@@ -1,0 +1,44 @@
+<mat-toolbar color="primary">
+  <span>{{ title }}</span>
+</mat-toolbar>
+
+<div class="container">
+  <mat-card class="todo-input-card">
+    <mat-card-content>
+      <mat-form-field appearance="fill" class="full-width-input">
+        <mat-label>New To-Do</mat-label>
+        <input matInput [(ngModel)]="newTodoTitle" (keyup.enter)="addTodo()" placeholder="What needs to be done?">
+      </mat-form-field>
+      <button mat-raised-button color="accent" (click)="addTodo()">Add To-Do</button>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="todo-list-card">
+    <mat-card-header>
+      <mat-card-title>My To-Do List</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div cdkDropList class="todo-list" (cdkDropListDropped)="drop($event)">
+        <mat-card *ngIf="todos.length === 0" class="no-todos-message">
+          <mat-card-content>
+            No To-Do items yet. Add one above!
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card *ngFor="let todo of todos" cdkDrag class="todo-item" [class.completed]="todo.isComplete">
+          <div class="todo-content">
+            <mat-checkbox [checked]="todo.isComplete" (change)="updateTodoStatus(todo)">
+              <span [class.strike-through]="todo.isComplete">{{ todo.title }}</span>
+            </mat-checkbox>
+          </div>
+          <button mat-icon-button color="warn" (click)="deleteTodo(todo.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <div class="cdk-drag-handle" cdkDragHandle>
+            <mat-icon>drag_indicator</mat-icon>
+          </div>
+        </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,16 +1,16 @@
+// src/app/todo.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Todo } from './todo.component'; // Import the Todo interface
+import { Todo } from './todo'; // Import the Todo interface
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
-  private apiUrl = 'http://localhost:5123/todos'; // Adjust if your backend port is different
-  private _title: string;
+  private apiUrl = 'http://localhost:5270/todos'; // Adjust if your backend port is different
 
-  constructor(private http: HttpClient) { this._title = ""}
+  constructor(private http: HttpClient) { }
 
   getTodos(): Observable<Todo[]> {
     return this.http.get<Todo[]>(this.apiUrl);
@@ -26,13 +26,5 @@ export class TodoService {
 
   deleteTodo(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
-  }
-
-  getTitleClass(){
-    return "Titulo"
-  }
-
-  setTitle(title: string) {
-    this._title = title
   }
 }
